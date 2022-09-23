@@ -4,6 +4,14 @@ from django.contrib.auth import get_user_model
 
 
 
+class ActiveManager(models.Manager):
+    def active_product(self):
+        return super().get_queryset().filter(active=True)
+
+
+
+
+
 User = get_user_model()
 class Product(models.Model):
     user = models.ForeignKey(User, verbose_name=_("user"), on_delete=models.CASCADE)
@@ -14,3 +22,10 @@ class Product(models.Model):
 
     datetime_created = models.DateTimeField(_("datetime_created"), auto_now_add=True)
     datetime_modified = models.DateTimeField(_("datetime_modified"), auto_now=True)
+
+
+    objects = ActiveManager()
+
+    @property
+    def get_username(self):
+        return self.user.username
