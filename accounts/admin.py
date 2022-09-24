@@ -10,7 +10,7 @@ from .models import CustomUser
 @admin.register(CustomUser)
 class UserAdmin(admin.ModelAdmin):
     fieldsets = (
-        (None, {"fields": ("username", "password")}),
+        (None, {"fields": ("username", "password", "email")}),
         (
             ("Permissions"),
             {
@@ -25,13 +25,4 @@ class UserAdmin(admin.ModelAdmin):
             },
         ),
         (("Important dates"), {"fields": ("last_login", "date_joined")}),
-    )
-    add_fieldsets = (
-        (
-            None,
-            {
-                "classes": ("wide",),
-                "fields": ("username", "password1", "password2"),
-            },
-        ),
     )

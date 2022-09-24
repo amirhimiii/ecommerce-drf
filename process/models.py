@@ -28,7 +28,6 @@ class CartItem(models.Model):
     order = models.ForeignKey(Cart, on_delete=models.CASCADE , related_name = 'carts',blank=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name = 'output')
     quantity = models.PositiveSmallIntegerField(default=0)
-    slug = models.SlugField()
 
     def __str__(self):
         return self.product.title

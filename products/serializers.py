@@ -17,6 +17,7 @@ class ProductSerializers(serializers.ModelSerializer):
             'active',
             ]
     
+
     def get_url(self, obj):
         request = self.context.get('request')
         if request is None:

@@ -137,7 +137,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 SITE_ID = 1
+LOGIN_REDIRECT_URL = 'list-create'
+LOGOUT_REDIRECT_URL = 'list-create'
 
+ACCOUNT_AUTHENTICATION_METHOD ='email'
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
 
 # REST_FRAMEWORK = {
 #     # Use Django's standard `django.contrib.auth` permissions,
@@ -146,3 +157,4 @@ SITE_ID = 1
 #         'rest_framework.permissions.IsAuthenticated'
 #     ]
 # }
+
