@@ -21,6 +21,7 @@ urlpatterns = [
     path('', include('products.urls')),
     path('auth/', include('rest_framework.urls')),
     path('accounts/', include('allauth.urls')),
-    path('process/',include('process.urls'))
+    path('process/',include('process.urls')),
+    path('user/', include('profiles.urls'))
 
 ]
