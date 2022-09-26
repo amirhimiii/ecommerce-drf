@@ -6,7 +6,6 @@ from products.models import Product
 class StaffUserPermissions(permissions.BasePermission):
     def has_permission(self, request,view):
         return(
-            request.method in SAFE_METHODS and
             request.user and request.user.is_staff or 
             request.user and request.user.is_superuser
         )

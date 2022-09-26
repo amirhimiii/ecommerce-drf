@@ -2,13 +2,13 @@ from django.shortcuts import render
 from rest_framework import generics , permissions
 from .models import Product
 from .serializers import ProductSerializers
-from .permissions import IsSuperOrAthorUser, ObjectPermissions
+from .permissions import ObjectPermissions
 
 
 class ProductListCreate(generics.ListCreateAPIView):
     queryset = Product.objects.active_product()
     serializer_class = ProductSerializers
-    permission_classes = [IsSuperOrAthorUser,ObjectPermissions]
+    permission_classes = [ObjectPermissions]
 
     def perform_create(self, serializer):
         if self.request.user.is_authenticated:
@@ -23,7 +23,7 @@ product_list_create = ProductListCreate.as_view()
 class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.active_product()
     serializer_class = ProductSerializers
-    permission_classes = [IsSuperOrAthorUser, ObjectPermissions]
+    # permission_classes = [ ObjectPermissions]
 
     
 

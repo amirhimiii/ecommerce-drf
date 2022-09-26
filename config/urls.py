@@ -15,13 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.authtoken import views
+# from profiles.views import RevokeToken
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('user/', include('profiles.urls')),
     path('', include('products.urls')),
-    path('auth/', include('rest_framework.urls')),
     path('accounts/', include('allauth.urls')),
     path('process/',include('process.urls')),
-    path('user/', include('profiles.urls'))
+    # path('auth/', include('rest_framework.urls')),
+    # path('token-auth/', views.obtain_auth_token),
+    # path('revoke/', RevokeToken.as_view()),
+
 
 ]

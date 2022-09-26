@@ -14,7 +14,7 @@ class ActiveManager(models.Manager):
 
 User = get_user_model()
 class Product(models.Model):
-    user = models.ForeignKey(User, verbose_name=_("user"), on_delete=models.CASCADE)
+    user = models.ForeignKey(User ,verbose_name=_("user"), on_delete=models.CASCADE)
     title = models.CharField(_("title"), max_length=50)
     description = models.TextField(_("description"))
     price = models.DecimalField(_("price"), max_digits=5, decimal_places=2)
