@@ -13,4 +13,3 @@ class CartAdmin(admin.ModelAdmin):
     list_filter = ('user','status','ordered','date_paid')
     inlines = [CartInline,]
 
-admin.site.register(CartItem)

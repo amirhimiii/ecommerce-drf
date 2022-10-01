@@ -4,5 +4,5 @@ from profiles.views import UserViewSet
 
 
 router = routers.SimpleRouter()
-router.register('users', UserViewSet)
+router.register('', UserViewSet, basename='user')
 urlpatterns = router.urls

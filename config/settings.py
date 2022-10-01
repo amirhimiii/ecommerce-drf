@@ -40,16 +40,18 @@ INSTALLED_APPS = [
     #third part
     'rest_framework',
     'rest_framework.authtoken',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
     "corsheaders",
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    
+    'django_filters',
+
     #APP
     'accounts',
     'products',
     'process',
-
 ]
 
 MIDDLEWARE = [
@@ -139,11 +141,10 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
-SITE_ID = 1
 LOGIN_REDIRECT_URL = 'list-create'
 LOGOUT_REDIRECT_URL = 'list-create'
 
-ACCOUNT_AUTHENTICATION_METHOD ='email'
+ACCOUNT_AUTHENTICATION_METHOD ='username'
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_REQUIRED = True
@@ -153,21 +154,35 @@ ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
 
+
+
+
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-     'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.IsAdminUser'
-     ],
+        'DEFAULT_PERMISSION_CLASSES': [
+            'products.permissions.IsStaffOrReadOnly',
+    ],
+
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+    ],
 
-
-    ]
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter'
+        ]
 }
 
+SITE_ID = 1
+REST_USE_JWT = True
+JWT_AUTH_COOKIE = 'ecommerce-access'
+JWT_AUTH_REFRESH_COOKIE = 'refresh'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
+}
 
 
 CORS_ALLOW_METHODS = [

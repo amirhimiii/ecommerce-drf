@@ -15,19 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.authtoken import views
-# from profiles.views import RevokeToken
+from dj_rest_auth.views import PasswordResetConfirmView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('user/', include('profiles.urls')),
+    path('user/', include('config.routers')),
     path('', include('products.urls')),
-    path('accounts/', include('allauth.urls')),
     path('process/',include('process.urls')),
+    path('accounts/', include('allauth.urls')),
+    path('rest-auth/', include('dj_rest_auth.urls')),
+    path('rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('password/reset/confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    # re_path(
+    #     r'^account-confirm-email/(?P<key>[-:\w]+)/$', TemplateView.as_view(),
+    #     name='account_confirm_email',
+    # ),
     # path('auth/', include('rest_framework.urls')),
-    # path('token-auth/', views.obtain_auth_token),
-    # path('revoke/', RevokeToken.as_view()),
-
-
 ]

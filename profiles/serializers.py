@@ -9,8 +9,17 @@ class UserList(serializers.ModelSerializer):
     url = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = User
-        fields= '__all__'
-
+        fields= [
+            "url",
+            "password",
+            "last_login",
+            "username",
+            "first_name",
+            "last_name",
+            "is_active",
+            "email",
+            "is_author",
+        ]
     
     def get_url(self, obj):
         request = self.context.get('request')
