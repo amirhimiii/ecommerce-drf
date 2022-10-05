@@ -20,6 +20,7 @@ now = datetime.datetime.now()
 
 class CartItemAPIView(APIView):
     serializer_class = CartItemSerializers
+    permissions_classes = (permissions.IsAdminUser)
 
     def post(self ,request, *args, **kwargs):
         user = request.user
@@ -52,6 +53,11 @@ class CartItemAPIView(APIView):
     
     def get(self , request):
         user = self.request.user
+        if self.request.user.is_authenticated:
+            cart= Cart.objects.filter(user=user).first()
+        else:    
+            raise PermissionDenied("you must login")
+        # print(CartItem.total_price())
         cart= Cart.objects.filter(user=user).first()
         cart_item = CartItem.objects.filter(cart=cart)
         serializer = CartItemShowSerializers(cart_item, many=True)
@@ -71,8 +77,13 @@ class RetrieveUpdateDestroy(APIView):
     # queryset = CartItem.objects.all()
     
     def get(self, request, pk):
+        permissions_classes = (permissions.IsAdminUser)
         user = request.user
-        queryset = Cart.objects.filter(user=user )
+        if self.request.user.is_authenticated:
+            queryset = Cart.objects.filter(user=user )
+        else:    
+            raise PermissionDenied("you must login")
+
         serializer = CartSerializers(queryset, many=True)
         return Response(serializer.data)
 

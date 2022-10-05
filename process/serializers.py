@@ -22,18 +22,26 @@ class CartItemSerializers(serializers.ModelSerializer):
 
 class CartItemShowSerializers(serializers.ModelSerializer):
     cart = serializers.CharField(source="cart.user", read_only=True)
-    # product = serializers.CharField(source="product.title")
+    total_price = serializers.SerializerMethodField()
     class Meta:
         model = CartItem
-        fields = ['cart','product','quantity']
+        fields = ['cart','product','quantity','total_price']
         read_only_fields = ['cart']
         depth= 1
+
+    def get_total_price(self, obj):
+        return obj.total_price
 
 
 
 class CartSerializers(serializers.ModelSerializer):
+    total_price = serializers.SerializerMethodField()
+
     class Meta:
         model = Cart
-        fields =['status','ordered','date_paid']
+        fields =['status','ordered','date_paid','total_price']
         read_only_fields = ['user']
-        depth= 1
+
+
+    def total_price(self, obj):
+        return int(obj.total_price)
