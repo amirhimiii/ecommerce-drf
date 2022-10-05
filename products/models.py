@@ -26,6 +26,11 @@ class Product(models.Model):
 
     objects = ActiveManager()
 
+    def __str__(self):
+        return self.title
+    
+
+
     @property
     def get_username(self):
         return self.user.username
