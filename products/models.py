@@ -19,6 +19,7 @@ class Product(models.Model):
     description = models.TextField(_("description"))
     price = models.DecimalField(_("price"), max_digits=5, decimal_places=2)
     active = models.BooleanField(_("active?"), default=True)
+    image = models.ImageField(_("image of product"), upload_to='products')
 
     datetime_created = models.DateTimeField(_("datetime_created"), auto_now_add=True)
     datetime_modified = models.DateTimeField(_("datetime_modified"), auto_now=True)

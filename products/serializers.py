@@ -13,6 +13,7 @@ class ProductSerializers(serializers.ModelSerializer):
             'title',
             'description',
             'price',
+            'image',
             'url',
             ]
     

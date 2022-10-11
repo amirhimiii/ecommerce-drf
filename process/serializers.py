@@ -3,15 +3,12 @@ from .models import Cart , CartItem
 from rest_framework.response import Response
 from profiles.serializers import UserList
 from products.serializers import ProductSerializers
+import base64
 
 
 #POST Serializer
 class CartItemSerializers(serializers.ModelSerializer):
-    def product_title(self,obj):
-        return obj.product.title
-
     cart = serializers.CharField(source="cart.user", read_only=True)
-    product = serializers.SerializerMethodField('get_product')
 
     class Meta:
         model = CartItem
@@ -19,20 +16,28 @@ class CartItemSerializers(serializers.ModelSerializer):
         read_only_fields = ['cart']
 
 
+class TrackListingField(serializers.ModelSerializer):
+    def get_queryset(self, obj):
+        return self.obj.product.image.url
+
 #Get Serializer
 class CartItemShowSerializers(serializers.ModelSerializer):
+
+    image = serializers.SerializerMethodField(source = 'product.image')
     cart = serializers.CharField(source="cart.user", read_only=True)
     product = serializers.CharField(source='product.title')
     price = serializers.SerializerMethodField()
     class Meta:
         model = CartItem
-        fields = ['cart','product','quantity','price']
+        fields = ['cart','product','quantity','price','image']
         read_only_fields = ['cart']
         # depth= 1
 
     def get_price(self, obj):
         return obj.price()
 
+    def get_image(self, obj):
+        return obj.get_image()
 
 #Shopping Cart
 class CartSerializers(serializers.ModelSerializer):

@@ -55,7 +55,7 @@ class CartItemAPIView(APIView):
             raise PermissionDenied("you must login")
         cart= Cart.objects.filter(user=user).first()
         cart_item = CartItem.objects.filter(cart=cart)
-        serializer = CartItemSerializers(cart_item, many=True)
+        serializer = CartItemShowSerializers(cart_item, many=True)
         return Response(serializer.data )
 
 

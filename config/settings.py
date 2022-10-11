@@ -142,6 +142,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_URL = 'image/'
+MEDIA_ROOT =  str(BASE_DIR.joinpath('products'))
+STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -149,6 +153,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
+# Allauth
 LOGIN_REDIRECT_URL = 'list-create'
 LOGOUT_REDIRECT_URL = 'list-create'
 
@@ -164,7 +169,7 @@ ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
 
 
 
-
+# Django Rest Framework
 REST_FRAMEWORK = {
         'DEFAULT_PERMISSION_CLASSES': [
             'products.permissions.IsStaffOrReadOnly',
@@ -180,6 +185,9 @@ REST_FRAMEWORK = {
         ]
 }
 
+
+
+# JWT
 SITE_ID = 1
 REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'ecommerce-access'
@@ -190,9 +198,10 @@ from datetime import timedelta
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
+
 }
 
-
+# CORS
 CORS_ALLOW_METHODS = [
     "DELETE",
     "GET",

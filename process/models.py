@@ -37,4 +37,5 @@ class CartItem(models.Model):
     def price(self):
         return self.product.price * self.quantity
          
-            
+    def get_image(self):
+        return self.product.image.url
