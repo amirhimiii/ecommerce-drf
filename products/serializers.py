@@ -9,13 +9,11 @@ class ProductSerializers(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = [
-            'user',
-            'url',
             'username',
             'title',
             'description',
             'price',
-            'active',
+            'url',
             ]
     
 
