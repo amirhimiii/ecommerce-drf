@@ -27,6 +27,9 @@ class UserList(serializers.ModelSerializer):
             return None        
         return reverse("user-detail", kwargs={'pk':obj.pk}, request=request)
 
+
+
+
 class UserDetail(serializers.ModelSerializer):
     class Meta:
         model = User

@@ -4,21 +4,22 @@ from rest_framework.response import Response
 from profiles.serializers import UserList
 from products.serializers import ProductSerializers
 
+
+#POST Serializer
 class CartItemSerializers(serializers.ModelSerializer):
-    # product = serializers.CharField(source="product.title")
+    def product_title(self,obj):
+        return obj.product.title
+
     cart = serializers.CharField(source="cart.user", read_only=True)
-    # product = serializers.PrimaryKeyRelatedField(read_only=True)
-    # product = serializers.SerializerMethodField('product')
-    # product = serializers.CharField(source='product.title')
-    # product_name = serializers.SerializerMethodField(read_only=True)
+    product = serializers.SerializerMethodField('get_product')
+
     class Meta:
         model = CartItem
         fields = ['cart','product','quantity']
         read_only_fields = ['cart']
-        # depth=1
 
 
-
+#Get Serializer
 class CartItemShowSerializers(serializers.ModelSerializer):
     cart = serializers.CharField(source="cart.user", read_only=True)
     product = serializers.CharField(source='product.title')
@@ -33,7 +34,7 @@ class CartItemShowSerializers(serializers.ModelSerializer):
         return obj.price()
 
 
-
+#Shopping Cart
 class CartSerializers(serializers.ModelSerializer):
     total_price = serializers.SerializerMethodField()
     class Meta:

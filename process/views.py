@@ -26,14 +26,10 @@ class CartItemAPIView(APIView):
         user = request.user
         product = get_object_or_404(Product, pk=request.data["product"])        
         
-        
         try:
             cart = Cart.objects.get(user=user)
         except ObjectDoesNotExist:
             cart = Cart.objects.create(user=user, status='NP',ordered=True, date_paid=timezone.now())
-
-        # cart , cart_create = Cart.objects.get_or_create(user=user, status='NP',ordered=True, date_paid=timezone.now())
-
         try:
             quantity = int(request.data["quantity"])
         except Exception as e:
@@ -57,10 +53,9 @@ class CartItemAPIView(APIView):
             cart= Cart.objects.filter(user=user).first()
         else:    
             raise PermissionDenied("you must login")
-        # print(CartItem.total_price())
         cart= Cart.objects.filter(user=user).first()
         cart_item = CartItem.objects.filter(cart=cart)
-        serializer = CartItemShowSerializers(cart_item, many=True)
+        serializer = CartItemSerializers(cart_item, many=True)
         return Response(serializer.data )
 
 
@@ -74,7 +69,6 @@ cart_item = CartItemAPIView.as_view()
 class RetrieveUpdateDestroy(APIView):
     serializer_class = CartSerializers
     permissions_classes = (permissions.IsAdminUser)
-    # queryset = CartItem.objects.all()
     
     def get(self, request, pk):
         permissions_classes = (permissions.IsAdminUser)
