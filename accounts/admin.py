@@ -10,7 +10,7 @@ from .models import CustomUser
 @admin.register(CustomUser)
 class UserAdmin(admin.ModelAdmin):
     fieldsets = (
-        (None, {"fields": ("username", "password", "email")}),
+        (None, {"fields": ("username", "password", "email","phone_number")}),
         (
             ("Permissions"),
             {
