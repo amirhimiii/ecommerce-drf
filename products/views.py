@@ -9,6 +9,8 @@ class ProductListCreate(generics.ListCreateAPIView):
     queryset = Product.objects.active_product()
     serializer_class = ProductSerializers
     permission_classes = [IsStaffOrReadOnly]
+    filterset_fields = ['active','user','price']
+    search_fields = ['title','user__username']
 
     def perform_create(self, serializer):
         if self.request.user.is_authenticated:
