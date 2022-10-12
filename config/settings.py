@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from corsheaders.defaults import default_headers
 
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -47,6 +48,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'django_filters',
+    'django_countries', 
+    "phonenumber_field",
 
     #APP
     'accounts',
@@ -167,6 +170,14 @@ ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+
+
+# Django-Countries
+COUNTRIES_ONLY = [
+    ('IR', _('IRAN')),
+    ('US', _('AMERICA')),
+    ('GB', _('ENGLAND')),
+]
 
 
 

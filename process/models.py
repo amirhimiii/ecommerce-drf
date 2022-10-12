@@ -1,7 +1,7 @@
 from django.db import models
 from products.models import Product
 from django.contrib.auth import get_user_model
-import decimal
+from django_countries.fields import CountryField
 
 
 User = get_user_model()
@@ -49,8 +49,8 @@ class Checkout(models.Model):
     email = models.EmailField(max_length=254, blank=False, null=False)
     # phone_number = PhoneNumberField(max_length=14,help_text='e.g:0912 123 4567')
     address = models.CharField( max_length=200, blank=False, null=False)
-    # country = CountryField(blank_label='(select country)', blank=False, null=False)
-    zip_code =models.IntegerField( blank=False, null=False)
+    country = CountryField(blank_label='(select country)', blank=False, null=False)
+    zip_code =models.IntegerField(blank=False, null=False)
 
     def __str__(self):
-        return self.first_name
+        return self.username

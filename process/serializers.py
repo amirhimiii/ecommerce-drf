@@ -3,6 +3,9 @@ from .models import Cart , CartItem, Checkout
 from rest_framework.response import Response
 from profiles.serializers import UserList
 from products.serializers import ProductSerializers
+from django_countries.serializer_fields import CountryField
+from django_countries.serializers import CountryFieldMixin
+
 
 
 #POST Serializer
@@ -15,17 +18,14 @@ class CartItemSerializers(serializers.ModelSerializer):
         read_only_fields = ['cart']
 
 
-class TrackListingField(serializers.ModelSerializer):
-    def get_queryset(self, obj):
-        return self.obj.product.image.url
 
 #Get Serializer
 class CartItemShowSerializers(serializers.ModelSerializer):
-
     image = serializers.SerializerMethodField(source = 'product.image')
     cart = serializers.CharField(source="cart.user", read_only=True)
     product = serializers.CharField(source='product.title')
     price = serializers.SerializerMethodField()
+    
     class Meta:
         model = CartItem
         fields = ['cart','product','quantity','price','image']
@@ -41,6 +41,7 @@ class CartItemShowSerializers(serializers.ModelSerializer):
 #Shopping Cart
 class CartSerializers(serializers.ModelSerializer):
     total_price = serializers.SerializerMethodField()
+    
     class Meta:
         model = Cart
         fields =['status','ordered','date_paid','total_price']
@@ -49,21 +50,15 @@ class CartSerializers(serializers.ModelSerializer):
 
     def total_price(self, obj):
         return int(obj.total_price)
-
     
-class CheckoutSerializer(serializers.ModelSerializer):
+    
+class CheckoutSerializer(CountryFieldMixin ,serializers.ModelSerializer):
+    country = CountryField()
     email = serializers.ReadOnlyField()
     cart=serializers.StringRelatedField()
     user= serializers.StringRelatedField()
-
+    zip_code = serializers.IntegerField(max_value=9, min_value=5)
 
     class Meta:
         model = Checkout
         exclude = ['id']
-
-    # def get_serializer_class(self):
-    #     if self.request.method == GET:
-    #         fields =['__all__']
-    #         return fields
-    #     exclude = ['cart','user','id','email']
-    #     return exclude
