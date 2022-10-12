@@ -53,3 +53,6 @@ class Checkout(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def phone_number(self):
+        return self.user.phone_number

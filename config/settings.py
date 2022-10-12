@@ -179,6 +179,9 @@ COUNTRIES_ONLY = [
     ('GB', _('ENGLAND')),
 ]
 
+# phone validate
+PHONENUMBER_DB_FORMAT = 'E164'
+PHONENUMBER_DEFAULT_REGION = 'IR'
 
 
 # Django Rest Framework

@@ -2,10 +2,10 @@ from rest_framework import serializers
 from .models import Cart , CartItem, Checkout
 from rest_framework.response import Response
 from profiles.serializers import UserList
-from products.serializers import ProductSerializers
 from django_countries.serializer_fields import CountryField
 from django_countries.serializers import CountryFieldMixin
-
+from accounts.models import CustomUser
+from phonenumber_field.serializerfields import PhoneNumberField
 
 
 #POST Serializer
@@ -51,8 +51,13 @@ class CartSerializers(serializers.ModelSerializer):
     def total_price(self, obj):
         return int(obj.total_price)
     
-    
+
+
+
+
+
 class CheckoutSerializer(CountryFieldMixin ,serializers.ModelSerializer):
+    phone_number = PhoneNumberField(region="IR")
     country = CountryField()
     email = serializers.ReadOnlyField()
     cart=serializers.StringRelatedField()
@@ -62,3 +67,6 @@ class CheckoutSerializer(CountryFieldMixin ,serializers.ModelSerializer):
     class Meta:
         model = Checkout
         exclude = ['id']
+
+    def get_phone_number(self, obj):
+        return obj.phone_number()
