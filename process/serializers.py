@@ -1,9 +1,8 @@
 from rest_framework import serializers
-from .models import Cart , CartItem
+from .models import Cart , CartItem, Checkout
 from rest_framework.response import Response
 from profiles.serializers import UserList
 from products.serializers import ProductSerializers
-import base64
 
 
 #POST Serializer
@@ -50,3 +49,21 @@ class CartSerializers(serializers.ModelSerializer):
 
     def total_price(self, obj):
         return int(obj.total_price)
+
+    
+class CheckoutSerializer(serializers.ModelSerializer):
+    email = serializers.ReadOnlyField()
+    cart=serializers.StringRelatedField()
+    user= serializers.StringRelatedField()
+
+
+    class Meta:
+        model = Checkout
+        exclude = ['id']
+
+    # def get_serializer_class(self):
+    #     if self.request.method == GET:
+    #         fields =['__all__']
+    #         return fields
+    #     exclude = ['cart','user','id','email']
+    #     return exclude

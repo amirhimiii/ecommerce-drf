@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Cart, CartItem
+from .models import Cart, CartItem, Checkout
 
 
 class CartInline(admin.StackedInline):
@@ -13,3 +13,6 @@ class CartAdmin(admin.ModelAdmin):
     list_filter = ('user','status','ordered','date_paid')
     inlines = [CartInline,]
 
+
+
+admin.site.register(Checkout)
