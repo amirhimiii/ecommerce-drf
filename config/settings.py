@@ -10,22 +10,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 from corsheaders.defaults import default_headers
-
-from pathlib import Path
 from django.utils.translation import gettext_lazy as _
+from pathlib import Path
+from environs import Env
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = Env()
+env.read_env()
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
+SECRET_KEY = env('DJANGO_SECRET_KEY')
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-&f&oophk^hntm&d(&=3(vl%rn_1c9&5!vs*0^78da((*#z2#_('
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DJANGO_DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -183,6 +179,15 @@ COUNTRIES_ONLY = [
 PHONENUMBER_DB_FORMAT = 'E164'
 PHONENUMBER_DEFAULT_REGION = 'IR'
 
+# Django Email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_USE_TLS = True
+EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+
+
 
 # Django Rest Framework
 REST_FRAMEWORK = {
@@ -206,9 +211,8 @@ REST_FRAMEWORK = {
 # JWT
 SITE_ID = 1
 REST_USE_JWT = True
-JWT_AUTH_COOKIE = 'ecommerce-access'
-JWT_AUTH_REFRESH_COOKIE = 'refresh'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+JWT_AUTH_COOKIE = env('REST_JWT_AUTH_COOKIE')
+JWT_AUTH_REFRESH_COOKIE = env('REST_JWT_AUTH_REFRESH_COOKIE')
 
 from datetime import timedelta
 SIMPLE_JWT = {
