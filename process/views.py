@@ -3,14 +3,17 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
 from products.models import Product
-from .models import Cart , CartItem
-from .serializers import CartItemSerializers, CartSerializers, CartItemShowSerializers
+from .models import Cart , CartItem, Checkout
+from .serializers import CartItemSerializers, CartSerializers, CartItemShowSerializers, CheckoutSerializer
 from rest_framework.exceptions import NotAcceptable, ValidationError, PermissionDenied
 from rest_framework import permissions, status
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from rest_framework import permissions
 import datetime
+from django.contrib.auth import get_user_model
+from accounts.models import CustomUser
+
 
 now = datetime.datetime.now()
 
@@ -108,3 +111,19 @@ class RetrieveUpdateDestroy(APIView):
 
 
 detail_update_view = RetrieveUpdateDestroy.as_view()
+
+
+User = get_user_model()
+class CheckoutView(generics.ListCreateAPIView):
+    queryset = Checkout.objects.all()
+    serializer_class = CheckoutSerializer
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        cart = Cart.objects.get(user=user)
+        email = self.request.user.email
+        print(self.request.data)
+        return serializer.save(user=user, cart=cart, email=email)
+
+
+checkout_view = CheckoutView.as_view()
