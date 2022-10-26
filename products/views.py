@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from rest_framework import generics , permissions
 from .models import Product
 from .serializers import ProductSerializers
@@ -26,6 +26,7 @@ class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.active_product()
     serializer_class = ProductSerializers
     permission_classes = [AuthorObjectPermissions]
+ 
 
     
 
